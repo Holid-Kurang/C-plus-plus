@@ -1,0 +1,329 @@
+#include <iostream>
+
+using namespace std;
+
+struct Folder {
+    string nama;
+    int arrFoddIx[100];
+    int parentPath[100];
+    int SumParent=0;
+    int indexAtAr=0;
+    int banyakFolder = 0;
+    int banyakFile=0;
+    int arrFileIx[100];
+    Folder() : nama(""){}
+    Folder(string _nama) {
+        for(int i=0;i<100;i++){
+            parentPath[i]=0;
+        }
+        nama = _nama;
+    }
+};
+
+struct File {
+    string nama;
+    int size;
+    string jenisFile;
+    int parentPath[100];
+    int SumParent=0;
+    int indexAtAr=0;
+    File() : nama(""),size(0),jenisFile(""){}
+    File(string _nama, int _size, string _jenisfile) {
+        nama = _nama;
+        size = _size;
+        jenisFile = _jenisfile;
+    }
+};
+int findFolderIndex(string namaFolder,Folder atFolder);
+int findFileIndex(string namaFile,Folder atFolder);
+Folder _viewFolder(Folder InView);
+void CreateNew(string _nama,int Parent);
+void CreateNew(string _nama,int _size,string _type,int Parent);
+
+int NIndexGiver=1,NIndexGiverFile=0;
+const int nar =100;
+Folder ArrFolderGlobal[nar];
+File ArrFileGlobal[nar];
+void rincian(Folder thisFolder);
+void rincian(File thisFile);
+
+int main() {
+    Folder Cmain("C:/");
+    ArrFolderGlobal[0] = Cmain;
+    _viewFolder(Cmain);
+}
+int findDigit(int input){
+    int hasil=0;
+    do{
+        input/=10;
+        hasil++;
+    }while (input!=0);
+    return hasil;
+}
+Folder _viewFolder(Folder InView){
+    while(true){
+    system("cls");
+    cout<<"=============================";
+    cout<<InView.nama;
+    cout<<"=============================\n";
+    cout<<"C:/";
+    for(int i=1;i<InView.SumParent;i++){
+        cout<<ArrFolderGlobal[InView.parentPath[i]].nama<<"/";
+    }
+    if(InView.SumParent!=0)cout<<InView.nama;
+    cout<<"\n==========================================================";
+    for(int i=0;i<InView.nama.length();i++){
+        cout<<"=";
+    }
+    cout<<"\n";
+
+    int indexAtFodd=1;
+    for(int i=0;i<InView.banyakFolder;i++){
+        cout <<indexAtFodd<<". "<<ArrFolderGlobal[InView.arrFoddIx[i]].nama;
+        cout<<endl;
+        indexAtFodd++;
+    }
+    for(int i=0;i<InView.banyakFile;i++){
+        int temp = (ArrFileGlobal[InView.arrFileIx[i]].nama.length()+ArrFileGlobal[InView.arrFileIx[i]].jenisFile.length()+1);
+        cout<<indexAtFodd<<". "<<ArrFileGlobal[InView.arrFileIx[i]].nama<<"."<<ArrFileGlobal[InView.arrFileIx[i]].jenisFile;
+        for(int i=0;i<50-temp;i++){
+            cout<<" ";
+        }
+        cout<<ArrFileGlobal[InView.arrFileIx[i]].size<<" Mb";
+        cout<<endl;
+        indexAtFodd++;
+    }
+    cout<<"Command >>>> ";
+    string command;
+    getline(cin, command);
+    string subCommand[10];
+    for(int i=0;i<10;i++){
+        subCommand[i]="";
+    }
+    int indexSubCommand=0;
+    for(int i=0;i<command.length();i++){
+        if(command[i]==32){
+            indexSubCommand++;
+            continue;
+        }
+        subCommand[indexSubCommand]+=command[i];
+    }
+    if(subCommand[0]=="kembali")return InView;
+    else if(subCommand[0]=="buat"&&subCommand[1]=="folder"){
+        CreateNew(subCommand[2],InView.indexAtAr);
+        InView=ArrFolderGlobal[InView.indexAtAr];
+    }
+    else if(subCommand[0]=="buat"&&subCommand[1]=="file"){
+        int size=0,tempPow=0;
+        for(int i=0;i<subCommand[3].length();i++){
+            tempPow=1;
+            for(int j=0;j<(subCommand[3].length()-i-1);j++){
+                tempPow*=10;
+            }
+            size+=(subCommand[3][i]-48)*(tempPow);
+        }
+        string type="",nama="";
+        bool isNowType=false;
+        for(int i=0;i<subCommand[2].length();i++){
+            if(subCommand[2][i]=='.'){
+                isNowType=true;
+                continue;
+            }
+            if(isNowType){
+                type+=subCommand[2][i];
+            }else{
+                nama+=subCommand[2][i];
+            }
+        }
+        CreateNew(nama,size,type,InView.indexAtAr);
+        InView=ArrFolderGlobal[InView.indexAtAr];
+    }
+    else if(subCommand[0]=="buka"&&subCommand[1]=="folder"){
+        int FolderNum = findFolderIndex(subCommand[2],InView);
+        if(FolderNum==999){
+            cout<<"Folder Tidak Di Temukan Pada Directory Ini";
+        }else{
+            ArrFolderGlobal[InView.arrFoddIx[FolderNum]] = _viewFolder(ArrFolderGlobal[InView.arrFoddIx[FolderNum]]);
+        }
+    }
+    else if(subCommand[0]=="rincian"&&subCommand[1]=="folder"){
+        int _FolderNum = findFolderIndex(subCommand[2],InView);
+        if(_FolderNum==999){
+            cout<<"Folder Tidak Di Temukan Pada Directory Ini";
+        }else{
+            rincian(ArrFolderGlobal[InView.arrFoddIx[_FolderNum]]);
+        }
+    }
+    else if(subCommand[0]=="rincian"&&subCommand[1]=="file"){
+        int _FileNum = findFileIndex(subCommand[2],InView);
+        if(_FileNum==999){
+            cout<<"File Tidak Di Temukan Pada Directory Ini";
+        }else{
+            rincian(ArrFileGlobal[InView.arrFileIx[_FileNum]]);
+        }
+    }
+    else {
+    cout<<"Command Tidak Ada";
+    }
+    system("pause");
+    }
+    return InView;
+}
+int findFileIndex(string namaFile,Folder atFolder){
+    int returnVal=999;
+    for(int i=0;i<atFolder.banyakFile;i++){
+        if(ArrFileGlobal[atFolder.arrFileIx[i]].nama==namaFile){
+        returnVal=i;
+        }
+    }
+    return returnVal;
+}
+int findFolderIndex(string namaFolder,Folder atFolder){
+    int returnVal=999;
+    for(int i=0;i<atFolder.banyakFolder;i++){
+        if(ArrFolderGlobal[atFolder.arrFoddIx[i]].nama==namaFolder){
+        returnVal=i;
+        }
+    }
+    return returnVal;
+}
+
+void CreateNew(string _nama,int Parent){
+    Folder newCreated(_nama);
+    newCreated.indexAtAr=NIndexGiverFile;
+    newCreated.indexAtAr=NIndexGiver;
+    if(ArrFolderGlobal[Parent].SumParent==0){
+        newCreated.SumParent=1;
+        newCreated.parentPath[0]=0;
+    }else{
+        newCreated.SumParent=ArrFolderGlobal[Parent].SumParent+1;
+        for(int i=0;i<ArrFolderGlobal[Parent].SumParent;i++){
+            newCreated.parentPath[i]=ArrFolderGlobal[Parent].parentPath[i];
+        }
+        newCreated.parentPath[ArrFolderGlobal[Parent].SumParent]=ArrFolderGlobal[Parent].indexAtAr;
+    }
+    ArrFolderGlobal[NIndexGiver]=newCreated;
+    ArrFolderGlobal[Parent].arrFoddIx[ArrFolderGlobal[Parent].banyakFolder]=NIndexGiver;
+    NIndexGiver++;
+    ArrFolderGlobal[Parent].banyakFolder++;
+}
+void CreateNew(string _nama,int _size,string _type,int Parent){
+    File NewCreated(_nama,_size,_type);
+    NewCreated.indexAtAr=NIndexGiverFile;
+    if(ArrFolderGlobal[Parent].SumParent==0){
+        NewCreated.SumParent=1;
+        NewCreated.parentPath[0]=ArrFolderGlobal[Parent].indexAtAr;
+    }else{
+        NewCreated.SumParent=ArrFolderGlobal[Parent].SumParent+1;
+        for(int i=0;i<ArrFolderGlobal[Parent].SumParent;i++){
+            NewCreated.parentPath[i]=ArrFolderGlobal[Parent].parentPath[i];
+        }
+        NewCreated.parentPath[ArrFolderGlobal[Parent].SumParent]=ArrFolderGlobal[Parent].indexAtAr;
+    }
+    ArrFileGlobal[NIndexGiverFile] = NewCreated;
+    ArrFolderGlobal[Parent].arrFileIx[ArrFolderGlobal[Parent].banyakFile]=NIndexGiverFile;
+    ArrFolderGlobal[Parent].banyakFile++;
+    NIndexGiverFile++;
+}
+void rincian(Folder thisFolder){
+    system("cls");
+    int setHeaderlength=20-thisFolder.nama.length()/2; 
+    for(int i=0;i<setHeaderlength;i++){
+        cout<<"=";
+    }
+    cout<<thisFolder.nama;
+    for(int i=0;i<setHeaderlength;i++){
+        cout<<"=";
+    }
+    if(thisFolder.nama.length()%2==0)
+        cout<<"=";
+    cout<<endl;
+    cout<<"|  Nama : "<<thisFolder.nama;
+    for(int i=0;i<30-thisFolder.nama.length();i++){
+        cout<<" ";
+    }
+    cout<<"|"<<endl;
+    int ParentLenght=0;
+    for(int i=1;i<thisFolder.SumParent;i++){
+        ParentLenght+=ArrFolderGlobal[thisFolder.parentPath[i]].nama.length();
+    }
+    ParentLenght+=thisFolder.nama.length();
+    ParentLenght+=thisFolder.SumParent;
+    ParentLenght+=3;
+    cout<<"|  Diretory : ";
+    //     12345678901234
+    cout<<"C:/";
+    for(int i=1;i<thisFolder.SumParent;i++){
+        cout<<ArrFolderGlobal[thisFolder.parentPath[i]].nama<<"/";
+    }
+    if(thisFolder.SumParent!=0)cout<<thisFolder.nama;
+    //     123456789012345678901
+    for(int i=0;i<=26-ParentLenght;i++){
+        cout<<" ";
+    }
+    cout<<"|"<<endl;
+    cout<<"|  Jumlah Folder : "<<thisFolder.banyakFolder;
+    //     1234567890123456789
+    for(int i=0;i<21-findDigit(thisFolder.banyakFolder);i++){
+        cout<<" ";
+    }
+    cout<<"|"<<endl;
+    cout<<"|  Jumlah File : "<<thisFolder.banyakFile;
+    //     12345678901234567
+    for(int i=0;i<23-findDigit(thisFolder.banyakFile);i++){
+        cout<<" ";
+    }
+    cout<<"|"<<endl;
+    cout<<"=========================================";      
+}
+void rincian(File thisFile){
+    system("cls");
+    int setHeaderlength=20-thisFile.nama.length()/2; 
+    for(int i=0;i<setHeaderlength;i++){
+        cout<<"=";
+    }
+    cout<<thisFile.nama;
+    for(int i=0;i<setHeaderlength;i++){
+        cout<<"=";
+    }
+    if(thisFile.nama.length()%2==0)
+        cout<<"=";
+    cout<<endl;
+    cout<<"|  Nama : "<<thisFile.nama;
+    for(int i=0;i<30-thisFile.nama.length();i++){
+        cout<<" ";
+    }
+    cout<<"|"<<endl;
+    int ParentLenght=0;
+    for(int i=1;i<thisFile.SumParent;i++){
+        ParentLenght+=ArrFolderGlobal[thisFile.parentPath[i]].nama.length();
+    }
+    ParentLenght+=thisFile.nama.length();
+    ParentLenght+=thisFile.SumParent;
+    ParentLenght+=3;
+    cout<<"|  Diretory : ";
+    //     12345678901234
+    cout<<"C:/";
+    for(int i=1;i<thisFile.SumParent;i++){
+        cout<<ArrFolderGlobal[thisFile.parentPath[i]].nama<<"/";
+    }
+    if(thisFile.SumParent!=0)cout<<thisFile.nama;
+    //     123456789012345678901
+    for(int i=1;i<=27-ParentLenght;i++){
+        cout<<" ";
+    }
+    cout<<"|"<<endl;
+    cout<<"|  Tipe File : "<<thisFile.jenisFile;
+    //     1234567890123456789
+    for(int i=0;i<25-thisFile.jenisFile.length();i++){
+        cout<<" ";
+    }
+    cout<<"|"<<endl;
+    cout<<"|  Besar File : "<<thisFile.size<<" Mb";
+    //     12345678901234567
+    for(int i=0;i<24-(findDigit(thisFile.size)+3);i++){
+        cout<<" ";
+    }
+    cout<<"|"<<endl;
+    cout<<"=========================================";
+}
