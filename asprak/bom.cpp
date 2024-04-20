@@ -4,10 +4,19 @@ using namespace std;
 
 int main() {
 	int banyak;
-	cout << "banyak bom : ";
+	cout << "banyak bom (max = 26) : ";
 	cin >> banyak;
+	while (banyak > 26) {
+		system("cls");
+		cout << "banyak bom (max = 26) : ";
+		cin >> banyak;
+	}
 	int bom[banyak];
 
+	for (char i = 'A'; i < 'A' + banyak; i++) {
+		cout << " ? ";
+	}
+	cout << endl;
 	for (char i = 'A'; i < 'A' + banyak; i++) {
 		cout << "(" << i << ")";
 	}
@@ -23,19 +32,25 @@ int main() {
 
 	if (indexBom >= 'A' && indexBom <= 'Z') {
 		indexBom -= 65;
-	} else if (indexBom >= 'a' && indexBom <= 'z') {
+	}
+	else if (indexBom >= 'a' && indexBom <= 'z') {
 		indexBom -= 97;
 	}
 
-	if (bom[indexBom] == 0) {
-		bom[indexBom] = -1;
-	} else {
-		int rangeKanan = indexBom + bom[indexBom];
-		int bomYangDiledakkan = bom[indexBom];
-		int i = indexBom;
+	if (bom[(int)(indexBom)] == 0) {
+		bom[(int)(indexBom)] = -1;
+	}
+	else {
+		int rangeKanan = (int)(indexBom)+bom[(int)(indexBom)];
+		int rangeKiri = (int)(indexBom)-bom[(int)(indexBom)];
+		int bomYangDiledakkan = bom[(int)(indexBom)];
+		int i = (int)(indexBom);
 		while (i <= rangeKanan) {
 			if (rangeKanan - i < bom[i]) {
 				rangeKanan = bom[i] + i;
+			}
+			if (i - rangeKiri < bom[i]) {
+				rangeKiri = i - bom[i];
 			}
 
 			bom[i] = -1;
@@ -45,9 +60,8 @@ int main() {
 			}
 		}
 
-		bom[indexBom] = bomYangDiledakkan;
+		bom[(int)(indexBom)] = bomYangDiledakkan;
 		i = indexBom;
-		int rangeKiri = indexBom;
 		while (i >= rangeKiri) {
 			if (i - rangeKiri < bom[i]) {
 				rangeKiri = i - bom[i];
@@ -59,11 +73,23 @@ int main() {
 			}
 		}
 	}
-	cout<<"Bom yang tersisa : "<<endl;
+	cout << "Bom yang tersisa : " << endl;
 	// print bom
 	for (char i = 'A'; i < 'A' + banyak; i++) {
-		if (bom[i-65] != -1) {
-			cout << i << ". " << bom[i-65] << endl;
+		if (bom[i - 65] != -1) {
+			cout << " ? ";
+		}
+	}
+	cout << endl;
+	for (char i = 'A'; i < 'A' + banyak; i++) {
+		if (bom[i - 65] != -1) {
+			cout << "(" << i << ")";
+		}
+	}
+	cout << endl;
+	for (char i = 'A'; i < 'A' + banyak; i++) {
+		if (bom[i - 65] != -1) {
+			cout << " " << bom[i - 65] << " ";
 		}
 	}
 }
