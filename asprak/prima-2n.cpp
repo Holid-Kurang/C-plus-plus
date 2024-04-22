@@ -5,14 +5,14 @@ int main() {
     int banyakBil;
     int prima = 2;
     int banyak2n = 0;
-    int sum=0;
+    int sum = 0;
     cin >> banyakBil;
     for (int i = 0; i < banyakBil; i++) {
         if (i % 2 == 0) {
             while (true) {
                 if (prima == 2) {
                     cout << prima << " ";
-                    sum+=prima;
+                    sum += prima;
                     prima++;
                     break;
                 }
@@ -25,7 +25,7 @@ int main() {
                 }
                 if (isPrima) {
                     cout << prima << " ";
-                    sum+=prima;
+                    sum += prima;
                     prima++;
                     break;
                 }
@@ -34,9 +34,9 @@ int main() {
         }
         else {
             cout << (1 << banyak2n) << " ";
-            sum+=(1 << banyak2n);
+            sum += (1 << banyak2n);
             banyak2n++;
         }
     }
-    cout << endl << "total : " <<sum;
+    cout << endl << "total : " << sum;
 }

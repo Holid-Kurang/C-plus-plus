@@ -18,6 +18,8 @@ int main() {
     // cout << "Address of var (&var) = " << &var << endl << endl;
     // // print pointer point_var
     // cout << "point_var = " << point_var << endl;
+    // // print address of point_var
+    // cout << "address of point_var (&point_var) = " << &point_var << endl << endl;
     // // print the content of the address point_var points to
     // cout << "Content of the address pointed to by point_var (*point_var) = " << *point_var << endl;
 
@@ -56,6 +58,8 @@ int main() {
     // int x = 10;
     // int& refX = x; // Referensi untuk variabel x
 
+    // cout<< &x  << endl;
+    // cout<< &refX << endl; // Alamat memori variabel x dan refX sama
     // cout << "Nilai x: " << x << endl;   // Output: Nilai x: 10
     // cout << "Nilai refX: " << refX << endl; // Output: Nilai refX: 10
 
@@ -63,10 +67,14 @@ int main() {
     // cout << "Nilai x setelah diubah melalui refX: " << x << endl; // Output: Nilai x setelah diubah melalui refX: 20
 
 
-    int num = 5;
-    incrementByReference(num);
-    cout << "Nilai setelah penambahan: " << num << endl;
-    incrementByPointer(&num);
-    cout << "Nilai setelah penambahan: " << num << endl;
+    // int num = 5;
+    // incrementByReference(num);
+    // cout << "Nilai setelah penambahan: " << num << endl;
+    // incrementByPointer(&num);
+    // cout << "Nilai setelah penambahan: " << num << endl;
+
+    int a=0;
+    int* x = &a;
+    cout << x << endl;
     return 0;
 }
