@@ -1,13 +1,11 @@
 #include <iostream>
 using namespace std;
 
-struct Dungeon {
-    string roomName;
-    Player player = NULL;
-    Monster monster = NULL;
-    Item item = NULL;
-    Dungeon* prev = NULL;
-    Dungeon* nextStage[3] = {NULL,NULL,NULL};
+struct Item {
+    string name;
+    int specialHp;
+    int specialAtk;
+    int specialDef;
 };
 
 struct Player {
@@ -15,24 +13,31 @@ struct Player {
     int hp;
     int atk;
     int def;
-    Item inventory[3] = {NULL,NULL,NULL};
-};
+    Item inventory[3];
+} player[4];
 
-struct Monster{
+struct Monster {
     string type;
     int hp;
     int atk;
     int def;
 };
 
-struct Item{
-    string name;
-    int specialHp;
-    int specialAtk;
-    int specialDef;
+struct Dungeon {
+    string roomName;
+    Player player[4];
+    Monster monster;
+    Item item;
+    Dungeon* prev = NULL;
+    Dungeon* nextStage[3] = { NULL,NULL,NULL };
 };
 
+void createDungeon() {
 
-int main(){
+}
 
+int main() {
+    // cout << createDungeon() << endl;
+    Monster monster;
+    cout<<monster.atk;
 }

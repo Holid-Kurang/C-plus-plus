@@ -8,6 +8,12 @@ void incrementByReference(int &ref) {
     ref++;
 }
 
+int* tes(){
+    int a=124;
+    cout<<&a<<endl;
+    int* ptr=&a;
+    return ptr;
+}
 int main() {
     // int var = 5;
     // // store address of var
@@ -23,22 +29,22 @@ int main() {
     // // print the content of the address point_var points to
     // cout << "Content of the address pointed to by point_var (*point_var) = " << *point_var << endl;
 
-    // float arr[3];
-    // // declare pointer variable
-    // float* ptr;
-    // cout << "Displaying address using arrays: " << endl;
-    // // use for loop to print addresses of all array elements
-    // for (int i = 0; i < 3; ++i) {
-    //     cout << "&arr[" << i << "] = " << &arr[i] << endl;
-    // }
-    // // ptr = &arr[0]
-    // ptr = arr;
-    // cout << "\nDisplaying address using pointers: " << endl;
-    // // use for loop to print addresses of all array elements
-    // // using pointer notation
-    // for (int i = 0; i < 3; ++i) {
-    //     cout << "ptr + " << i << " = " << ptr + i << endl;
-    // }
+    float arr[3];
+    // declare pointer variable
+    float* ptr;
+    cout << "Displaying address using arrays: " << endl;
+    // use for loop to print addresses of all array elements
+    for (int i = 0; i < 3; ++i) {
+        cout << "&arr[" << i << "] = " << &arr[i] << endl;
+    }
+    // ptr = &arr[0]
+    ptr = arr;
+    cout << "\nDisplaying address using pointers: " << endl;
+    // use for loop to print addresses of all array elements
+    // using pointer notation
+    for (int i = 0; i < 3; ++i) {
+        cout << "ptr + " << i << " = " << ptr + i << endl;
+    }
 
     // float arr[5];
     // // Insert data using pointer notation
@@ -73,8 +79,20 @@ int main() {
     // incrementByPointer(&num);
     // cout << "Nilai setelah penambahan: " << num << endl;
 
-    int a=0;
-    int* x = &a;
-    cout << x << endl;
+    // int a=0;
+    // int* x = &a;
+    // cout << x << endl;
+    
+    // cout<<tes();
+    
+    int a=124;
+    int* ptr=&a;
+    int& ref=*ptr;
+    // a=10;
+    // *ptr=10;
+    ref=10;
+    cout<<a<<endl;
+    cout<<*ptr<<endl;
+    cout<<ref;
     return 0;
 }
