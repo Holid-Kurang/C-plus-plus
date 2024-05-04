@@ -13,9 +13,6 @@ int main() {
 	}
 	int bom[banyak];
 
-	for (char i = 'A'; i < 'A' + banyak; i++) {
-		cout << " ? ";
-	}
 	cout << endl;
 	for (char i = 'A'; i < 'A' + banyak; i++) {
 		cout << "(" << i << ")";
@@ -75,11 +72,6 @@ int main() {
 	}
 	cout << "Bom yang tersisa : " << endl;
 	// print bom
-	for (char i = 'A'; i < 'A' + banyak; i++) {
-		if (bom[i - 65] != -1) {
-			cout << " ? ";
-		}
-	}
 	cout << endl;
 	for (char i = 'A'; i < 'A' + banyak; i++) {
 		if (bom[i - 65] != -1) {
