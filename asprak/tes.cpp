@@ -9,10 +9,16 @@ void incrementByReference(int &ref) {
 }
 
 int* tes(){
-    int a=124;
-    cout<<&a<<endl;
-    int* ptr=&a;
+    int abc=124;
+    cout<<&abc<<endl;
+    int* ptr=&abc;
     return ptr;
+}
+
+void display(int* arr, int n) {
+    for (int i = 0; i < n; ++i) {
+        cout << arr[i] << endl;
+    }
 }
 int main() {
     // int var = 5;
@@ -29,36 +35,36 @@ int main() {
     // // print the content of the address point_var points to
     // cout << "Content of the address pointed to by point_var (*point_var) = " << *point_var << endl;
 
-    float arr[3];
-    // declare pointer variable
-    float* ptr;
-    cout << "Displaying address using arrays: " << endl;
-    // use for loop to print addresses of all array elements
-    for (int i = 0; i < 3; ++i) {
-        cout << "&arr[" << i << "] = " << &arr[i] << endl;
-    }
-    // ptr = &arr[0]
-    ptr = arr;
-    cout << "\nDisplaying address using pointers: " << endl;
-    // use for loop to print addresses of all array elements
-    // using pointer notation
-    for (int i = 0; i < 3; ++i) {
-        cout << "ptr + " << i << " = " << ptr + i << endl;
-    }
+    // float arr[3];
+    // // declare pointer variable
+    // float* ptr;
+    // cout << "Displaying address using arrays: " << endl;
+    // // use for loop to print addresses of all array elements
+    // for (int i = 0; i < 3; ++i) {
+    //     cout << "&arr[" << i << "] = " << &arr[i] << endl;
+    // }
+    // // ptr = &arr[0]
+    // ptr = arr;
+    // cout << "\nDisplaying address using pointers: " << endl;
+    // // use for loop to print addresses of all array elements
+    // // using pointer notation
+    // for (int i = 0; i < 3; ++i) {
+    //     cout << "ptr + " << i << " = " << ptr + i << endl;
+    // }
 
-    float arr[5];
-    // Insert data using pointer notation
-    cout << "Enter 5 numbers: ";
-    for (int i = 0; i < 5; ++i) {
-        // store input number in arr[i]
-        cin >> *(arr + i); // cin >> arr[i]; are equivalent
-    }
-    // Display data using pointer notation
-    cout << "Displaying data: " << endl;
-    for (int i = 0; i < 5; ++i) {
-        // display value of arr[i]
-        cout << *(arr + i) << endl;
-    }
+    // float arr[5];
+    // // Insert data using pointer notation
+    // cout << "Enter 5 numbers: ";
+    // for (int i = 0; i < 5; ++i) {
+    //     // store input number in arr[i]
+    //     cin >> *(arr + i); // cin >> arr[i]; are equivalent
+    // }
+    // // Display data using pointer notation
+    // cout << "Displaying data: " << endl;
+    // for (int i = 0; i < 5; ++i) {
+    //     // display value of arr[i]
+    //     cout << *(arr + i) << endl;
+    // }
 
 
     // int x = 10;
@@ -82,17 +88,22 @@ int main() {
     // int a=0;
     // int* x = &a;
     // cout << x << endl;
+    // cout << &x << endl;
     
     // cout<<tes();
     
-    int a=124;
-    int* ptr=&a;
-    int& ref=*ptr;
+    // int a=124;
+    // int* ptr=&a;
+    // int& ref=*ptr;
     // a=10;
     // *ptr=10;
-    ref=10;
-    cout<<a<<endl;
-    cout<<*ptr<<endl;
-    cout<<ref;
+    // ref=10;
+    // cout<<a<<endl;
+    // cout<<*ptr<<endl;
+    // cout<<ref;
+
+
+    int arr[5] = {1, 2, 3, 4, 5};
+    display(arr, 5);
     return 0;
 }
