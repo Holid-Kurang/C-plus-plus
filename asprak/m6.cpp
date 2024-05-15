@@ -9,6 +9,7 @@ struct Item {
 };
 
 struct Player {
+    bool dead=false;
     string name;
     int hp;
     int atk;
@@ -17,27 +18,27 @@ struct Player {
 } player[4];
 
 struct Monster {
+    bool dead=false;
     string type;
     int hp;
     int atk;
     int def;
 };
 
-struct Dungeon {
+struct Stage {
     string roomName;
     Player player[4];
     Monster monster;
     Item item;
-    Dungeon* prev = NULL;
-    Dungeon* nextStage[3] = { NULL,NULL,NULL };
+    int prevStage;
+    int nextStage[2];
 };
+Stage stage[7];
 
 void createDungeon() {
-
+    stage[0].
 }
 
 int main() {
-    // cout << createDungeon() << endl;
-    Monster monster;
-    cout<<monster.atk;
+
 }

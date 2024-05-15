@@ -22,6 +22,9 @@ int main() {
 		bom[i] = getch(); // Membaca karakter tanpa menunggu tombol "Enter"
 		bom[i] -= 48;     // Mengubah karakter ke integer
 		cout << " " << bom[i] << " ";
+	}cout<<endl;
+	for (int i = 0 ; i < banyak; i++) {
+		cout << " " << i << " ";
 	}
 	char indexBom;
 	cout << endl << endl << "Bom yang diledakkan (nama bom) : ";
