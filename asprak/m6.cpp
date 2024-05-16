@@ -56,27 +56,53 @@ struct Stage {
     }
 };
 
+//*           (^)0
+//             |
+//             |
+//            (#)1
+//             |
+//             |
+//            (#)2
+//            /  \_
+//           /     \_
+//  3       /        \
+// (#)----(#)4       (#)5
+//                    |
+//                   /
+//                  |
+//                   \
+//                   (@)6 */
+
 Stage* createDungeon() {
     Stage* stage = new Stage[7];
+    stage[0].roomName = "000";
     stage[0].nextStage[0] = 1;
 
+    stage[1].roomName = "111";
     stage[1].nextStage[0] = 2;
     stage[1].prevStage = 0;
     
+    stage[2].roomName = "222";
     stage[2].nextStage[0] = 4;
     stage[2].nextStage[1]= 5;
 
+    stage[4].roomName = "444";
     stage[4].nextStage[0] = 3;
     stage[4].prevStage = 2;
 
+    stage[3].roomName = "333";
     stage[3].prevStage = 4;
 
+    stage[5].roomName = "555";
     stage[5].nextStage[0] = 6;
     stage[5].prevStage = 2;
 
-    Monster slime = {true,"Slime", 10, 5, 2};
-    Monster goblin = {true,"Goblin", 20, 10, 5};
-    Monster medusa = {true,"Medusa", 300, 15, 10};
+    stage[6].roomName = "666";
+    stage[6].prevStage = 5;
+    
+    Monster slime = {true,"Slime", 100, 5, 2};
+    Monster goblin = {true,"Goblin", 200, 10, 5};
+    Monster medusa = {true,"Medusa", 500, 50, 10};
 
     stage[1].monster = &slime;
     stage[4].monster = &goblin;
@@ -96,9 +122,8 @@ Stage* createDungeon() {
     player[1].atk = 20;
     player[1].def = 5;
 
-    stage[6].player[0] = player[0];
-    stage[6].player[1] = player[1];
-
+    stage[0].player[0] = player[0];
+    stage[0].player[1] = player[1];
     
     return stage;
 }
@@ -130,6 +155,14 @@ void displayMap(Stage* stage) {
     cout<<"                |"<<endl;
     cout<<"                 \\"<<endl;
     cout<<"                 ("<<condition[6]<<")"<<endl;
+}
+
+void display(Stage stage) {
+    cout << "Room Name: " << stage.roomName << endl;
+    cout << "Player 1: " << stage.player[0].name << endl;
+    cout << "Player 2: " << stage.player[1].name << endl;
+    cout << "Monster: " << stage.monster->type << endl;
+    cout << "Item: " << stage.item->name << endl;
 }
 int main() {
     Stage* dungeon = createDungeon();
