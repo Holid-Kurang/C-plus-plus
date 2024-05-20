@@ -12,7 +12,7 @@ struct Item {
     }
 };
 
-struct Player { 
+struct Player {
     bool dead = false;
     string name;
     int hp;
@@ -107,8 +107,8 @@ Room* createDungeon() {
     room[4].monster = new Monster(phoneix);
     room[6].monster = new Monster(leviathan);
 
-    Item obatKuat = { "Obat Kuat", "Increase attack by 5005", 0, 9999 };
-    Item obatSehat = { "Obat Sehat", "Increase HP by 5005", 9999, 0 };
+    Item obatKuat = { "Obat Kuat", "Increase attack by 6999", 0, 6999 };
+    Item obatSehat = { "Obat Sehat", "Increase HP by 6999", 6999, 0 };
     room[3].item = new Item(obatSehat);
     room[4].item = new Item(obatKuat);
 
@@ -127,18 +127,19 @@ Room* createDungeon() {
     return room;
 }
 
-void centerText(string mess){
-    cout<<"| |";
-	bool front = true;
-	for(int i = mess.size(); i<35; i++){
-		if(front){
-			mess = " " + mess;
-		}else{
-			mess = mess + " ";
-		}
-		front = !front;
-	}
-	cout<<mess<<"| |"<<endl;
+void centerText(string mess) {
+    cout << "| |";
+    bool front = true;
+    for (int i = mess.size(); i < 35; i++) {
+        if (front) {
+            mess = " " + mess;
+        }
+        else {
+            mess = mess + " ";
+        }
+        front = !front;
+    }
+    cout << mess << "| |" << endl;
 }
 
 void bar() {
@@ -264,106 +265,132 @@ void goBack(Room room[], int currentRoom) {
 int main() {
     Room* dungeon = createDungeon();
     string choice;
-    while (true){
+    while (true) {
         // if monster exist
-        if(dungeon[currentRoom(dungeon)].isMonsterExist()){
-            // displayMap(&dungeon[0]);
-            // if(dungeon[currentRoom(dungeon)].monster->type == "Beast Bear"){
-            //     beastBearModel();
-            // }else if(dungeon[currentRoom(dungeon)].monster->type == "Phoneix"){
-            //     phoneixModel();
-            // }else if(dungeon[currentRoom(dungeon)].monster->type == "Leviathan"){
-            //     levithanModel();
-            // }
-            // //play 
+        displayMap(&dungeon[0]);
+        if (dungeon[currentRoom(dungeon)].isMonsterExist()) {
+            displayMap(&dungeon[0]);
+            if(dungeon[currentRoom(dungeon)].monster->type == "Beast Bear"){
+                beastBearModel();
+            }else if(dungeon[currentRoom(dungeon)].monster->type == "Phoneix"){
+                phoneixModel();
+            }else if(dungeon[currentRoom(dungeon)].monster->type == "Leviathan"){
+                levithanModel();
+            }
+            // play 
         }
-        
+
+        if (!dungeon[currentRoom(dungeon)].isMonsterExist() && !dungeon[currentRoom(dungeon)].isItemExist()) {
+            bar();
+            centerText("There's nothing here...");
+            bar();
+        }
         // if item exist
-        if(dungeon[currentRoom(dungeon)].isItemExist()){
+        if (dungeon[currentRoom(dungeon)].isItemExist()) {
             displayMap(&dungeon[0]);
             bar();
             centerText("You found an item");
             centerText(dungeon[currentRoom(dungeon)].item->name);
+            centerText(""+dungeon[currentRoom(dungeon)].item->efek);
             bar();
-            while(true){
-                cout<<"Want to take it?.. (y/n) ";
+            while (true) {
+                cout << "Want to take it?.. (y/n) ";
                 getline(cin, choice);
-                if(choice == "y" || choice == "Y"){
-                    cout<<"who's gonna take it? "<<endl;
+                if (choice == "y" || choice == "Y") {
+                    cout << "who's gonna take it? " << endl;
                     string playerName;
-                    while(true){
-                        cout<<">>>>> ";
+                    while (true) {
+                        cout << ">>>>> ";
                         getline(cin, playerName);
-                        if(playerName == player[0].name || playerName == "holil"){
+                        if (playerName == player[0].name || playerName == "holil") {
                             player[0].item[0] = *dungeon[currentRoom(dungeon)].item;
                             break;
-                        }else if (playerName == player[1].name || playerName == "gilang"){
+                        }
+                        else if (playerName == player[1].name || playerName == "gilang") {
                             player[1].item[0] = *dungeon[currentRoom(dungeon)].item;
                             break;
-                        }else{
-                            cout<<"Player not found"<<endl;
+                        }
+                        else {
+                            cout << "Player not found" << endl;
                         }
                     }
                     delete dungeon[currentRoom(dungeon)].item;
                     dungeon[currentRoom(dungeon)].item = nullptr;
                     break;
-                }else if(choice == "n" || choice == "N"){
-                    cout<<"You left the item"<<endl;
+                }else if (choice == "n" || choice == "N") {
+                    displayMap(&dungeon[0]);
+                    bar();
+                    centerText("You left the item");
+                    bar();
                     break;
                 }
             }
         }
 
-        displayMap(&dungeon[0]);
-        if(!dungeon[currentRoom(dungeon)].isMonsterExist() && !dungeon[currentRoom(dungeon)].isItemExist()){
-            bar();
-            centerText("There's nothing here...");
-            bar();
-        }  
-
-        if(countNextRoom(dungeon[currentRoom(dungeon)].nextRoom) == 2){
-            cout<<"\tChoose next room..."<<endl;
-            cout<<"\t"<<1<<". "<<dungeon[dungeon[currentRoom(dungeon)].nextRoom[0]].roomName<<endl;
-            cout<<"\t"<<2<<". "<<dungeon[dungeon[currentRoom(dungeon)].nextRoom[1]].roomName<<endl;
-            cout<<"\tGo back"<<endl;
-            while (true){
-                cout<<">>>>> ";
+        if (countNextRoom(dungeon[currentRoom(dungeon)].nextRoom) == 2) {
+            cout << "\tChoose next room..." << endl;
+            cout << "\t" << 1 << ". " << dungeon[dungeon[currentRoom(dungeon)].nextRoom[0]].roomName << endl;
+            cout << "\t" << 2 << ". " << dungeon[dungeon[currentRoom(dungeon)].nextRoom[1]].roomName << endl;
+            cout << "\tGo back" << endl;
+            while (true) {
+                cout << ">>>>> ";
                 getline(cin, choice);
-                if (choice == "1"){
+                if (choice == "1") {
                     gotoNextRoom(dungeon, currentRoom(dungeon), dungeon[currentRoom(dungeon)].nextRoom[0]);
                     break;
-                }else if(choice == "2"){
+                }
+                else if (choice == "2") {
                     gotoNextRoom(dungeon, currentRoom(dungeon), dungeon[currentRoom(dungeon)].nextRoom[1]);
                     break;
-                }else if(choice == "back"){
+                }
+                else if (choice == "back") {
+                    goBack(dungeon, currentRoom(dungeon));
+                    break;
+                }else if (choice == "restart" || choice == "restar" || choice == "r" || choice == "ulang") {
+                    main();
+                    return 0;
+                }else if (choice == "nyerah" || choice == "give up" || choice == "kys") {
+                    return 0;
+                }
+            }
+        }
+        else if (countNextRoom(dungeon[currentRoom(dungeon)].nextRoom) == 1) {
+            cout << "\tNext room = " << dungeon[dungeon[currentRoom(dungeon)].nextRoom[0]].roomName << endl;
+            cout << "\tGo back" << endl;
+            while (true) {
+                cout << ">>>>> ";
+                getline(cin, choice);
+                if (choice == "back") {
                     goBack(dungeon, currentRoom(dungeon));
                     break;
                 }
-            }
-        }else if(countNextRoom(dungeon[currentRoom(dungeon)].nextRoom) == 1){
-            cout<<"\tNext room = "<<dungeon[dungeon[currentRoom(dungeon)].nextRoom[0]].roomName<<endl;
-            cout<<"\tGo back"<<endl;
-            while (true){
-                cout<<">>>>> ";
-                getline(cin, choice);
-                if(choice == "back"){
-                    goBack(dungeon, currentRoom(dungeon));
-                    break;
-                }else if(choice == "next"){
+                else if (choice == "next" || choice == "go") {
                     gotoNextRoom(dungeon, currentRoom(dungeon), dungeon[currentRoom(dungeon)].nextRoom[0]);
                     break;
+                }else if (choice == "restart" || choice == "restar" || choice == "r" || choice == "ulang") {
+                    main();
+                    return 0;
+                }else if (choice == "nyerah" || choice == "give up" || choice == "kys") {
+                    return 0;
                 }
             }
-        }else{
+        }
+        else {
+            bar();
             centerText("There are no other next room..");
             bar();
-            cout<<"\tGo back "<<endl;
-            while(true){
-                cout<<">>>>> ";
+            cout << "\tGo back " << endl;
+            while (true) {
+                cout << ">>>>> ";
                 getline(cin, choice);
-                if(choice == "back"){
+                if (choice == "back") {
                     goBack(dungeon, currentRoom(dungeon));
                     break;
+                }else if (choice == "restart" || choice == "restar" || choice == "r" || choice == "ulang") {
+                    main();
+                    return 0;
+                }else if (choice == "nyerah" || choice == "give up" || choice == "kys" || choice == "exit") {
+                    return 0;
                 }
             }
         }
