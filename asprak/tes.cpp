@@ -1,6 +1,19 @@
 #include <iostream>
 using namespace std;
 
+struct Tes1
+{
+    string name;
+    int age;
+};
+struct Tes
+{
+    string name;
+    int age;
+    Tes1 tes1;
+};
+
+
 void incrementByPointer(int *ptr) {
     (*ptr)++;
 }
@@ -15,11 +28,12 @@ int* tes(){
     return ptr;
 }
 
-void display(int* arr, int n) {
+void display(int arr[], int n) {
     for (int i = 0; i < n; ++i) {
         cout << arr[i] << endl;
     }
 }
+
 int main() {
     // int var = 5;
     // // store address of var
@@ -102,8 +116,25 @@ int main() {
     // cout<<*ptr<<endl;
     // cout<<ref;
 
+    // int arr[5] = {1, 2, 3, 4, 5};
+    // display(arr, 5);
 
-    int arr[5] = {1, 2, 3, 4, 5};
-    display(arr, 5);
+    Tes1 abc;
+    abc.name="tes1";
+    abc.age=23;
+
+    Tes zxc;
+    zxc.name="tes";
+    zxc.age=10;
+    zxc.tes1=abc;
+
+    cout<<zxc.tes1.name<<endl;
+    cout<<zxc.tes1.age<<endl;
+
+    zxc.tes1 = Tes1();
+    cout<<zxc.tes1.name<<endl;
+    cout<<zxc.tes1.age<<endl;
+    
     return 0;
+
 }
