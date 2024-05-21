@@ -119,22 +119,25 @@ int main() {
     // int arr[5] = {1, 2, 3, 4, 5};
     // display(arr, 5);
 
-    Tes1 abc;
-    abc.name="tes1";
-    abc.age=23;
+    // Tes1 abc;
+    // abc.name="tes1";
+    // abc.age=23;
 
-    Tes zxc;
-    zxc.name="tes";
-    zxc.age=10;
-    zxc.tes1=abc;
+    // Tes zxc;
+    // zxc.name="tes";
+    // zxc.age=10;
+    // zxc.tes1=abc;
 
-    cout<<zxc.tes1.name<<endl;
-    cout<<zxc.tes1.age<<endl;
+    // cout<<zxc.tes1.name<<endl;
+    // cout<<zxc.tes1.age<<endl;
 
-    zxc.tes1 = Tes1();
-    cout<<zxc.tes1.name<<endl;
-    cout<<zxc.tes1.age<<endl;
+    // zxc.tes1 = Tes1();
+    // cout<<zxc.tes1.name<<endl;
+    // cout<<zxc.tes1.age<<endl;
     
+    string a="tes";
+    string b=a+(char)1234;
+    cout<<b;
     return 0;
 
 }
